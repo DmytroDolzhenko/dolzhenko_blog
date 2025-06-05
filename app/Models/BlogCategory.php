@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BlogCategory extends Model
 {
-    use HasFactory;
     use SoftDeletes;
+    use HasFactory;
+    protected $fillable
+        = [
+            'title',
+            'slug',
+            'parent_id',
+            'description',
+        ];
 }
