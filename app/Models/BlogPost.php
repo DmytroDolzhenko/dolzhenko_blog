@@ -40,7 +40,6 @@ class BlogPost extends Model
      */
     public function user()
     {
-        //стаття належить користувачу
         return $this->belongsTo(User::class);
     }
 }
