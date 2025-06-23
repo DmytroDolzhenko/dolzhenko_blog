@@ -40,7 +40,7 @@ class CategoryController extends BaseController
     public function create()
     {
         $item = new BlogCategory();
-        $categoryList = $this->blogCategoryRepository->getForComboBox(); //BlogCategory::all();
+        $categoryList = $this->blogCategoryRepository->getForComboBox();
 
         return view('blog.admin.categories.edit', compact('item', 'categoryList'));    }
 
@@ -49,10 +49,10 @@ class CategoryController extends BaseController
      */
     public function store(BlogCategoryCreateRequest $request)
     {
-        $data = $request->input(); // отримуємо масив даних, які надійшли з форми
+        $data = $request->input();
 
 
-        $item = (new BlogCategory())->create($data); // створюємо об'єкт і додаємо в БД
+        $item = (new BlogCategory())->create($data);
 
         if ($item) {
             return redirect()
@@ -78,7 +78,7 @@ class CategoryController extends BaseController
     public function edit($id)
     {
         $item = $this->blogCategoryRepository->getEdit($id);
-        if (empty($item)) {                         //помилка, якщо репозиторій не знайде наш ід
+        if (empty($item)) {
             abort(404);
         }
         $categoryList = $this->blogCategoryRepository->getForComboBox($item->parent_id);
@@ -92,15 +92,15 @@ class CategoryController extends BaseController
     public function update(BlogCategoryUpdateRequest $request, $id)
     {
         $item = $this->blogCategoryRepository->getEdit($id);
-        if (empty($item)) { //якщо ід не знайдено
-            return back() //redirect back
-            ->withErrors(['msg' => "Запис id=[{$id}] не знайдено"]) //видати помилку
-            ->withInput(); //повернути дані
+        if (empty($item)) {
+            return back()
+            ->withErrors(['msg' => "Запис id=[{$id}] не знайдено"])
+            ->withInput();
         }
 
-        $data = $request->all(); //отримаємо масив даних, які надійшли з форми
+        $data = $request->all();
 
-        $result = $item->update($data);  //оновлюємо дані об'єкта і зберігаємо в БД
+        $result = $item->update($data);
 
         if ($result) {
             return redirect()

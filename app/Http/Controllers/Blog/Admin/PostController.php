@@ -22,12 +22,12 @@ class PostController extends BaseController
     /**
      * @var BlogCategoryRepository
      */
-    private $blogCategoryRepository; // властивість через яку будемо звертатись в репозиторій категорій
+    private $blogCategoryRepository;
 
     public function __construct()
     {
         parent::__construct();
-        $this->blogPostRepository = app(BlogPostRepository::class); //app повертає об'єкт класу
+        $this->blogPostRepository = app(BlogPostRepository::class);
         $this->blogCategoryRepository = app(BlogCategoryRepository::class);
     }
     /**
@@ -56,9 +56,9 @@ class PostController extends BaseController
      */
     public function store(BlogPostCreateRequest $request)
     {
-        $data = $request->input(); //отримаємо масив даних, які надійшли з форми
+        $data = $request->input();
 
-        $item = (new BlogPost())->create($data); //створюємо об'єкт і додаємо в БД
+        $item = (new BlogPost())->create($data);
 
         if ($item) {
             $job = new BlogPostAfterCreateJob($item);
@@ -88,7 +88,7 @@ class PostController extends BaseController
     public function edit(string $id)
     {
         $item = $this->blogPostRepository->getEdit($id);
-        if (empty($item)) {                         //помилка, якщо репозиторій не знайде наш ід
+        if (empty($item)) {
             abort(404);
         }
         $categoryList = $this->blogCategoryRepository->getForComboBox();
@@ -102,16 +102,16 @@ class PostController extends BaseController
     public function update(BlogPostUpdateRequest  $request, string $id)
     {
         $item = $this->blogPostRepository->getEdit($id);
-        if (empty($item)) { //якщо ід не знайдено
-            return back() //redirect back
-            ->withErrors(['msg' => "Запис id=[{$id}] не знайдено"]) //видати помилку
-            ->withInput(); //повернути дані
+        if (empty($item)) {
+            return back()
+            ->withErrors(['msg' => "Запис id=[{$id}] не знайдено"])
+            ->withInput();
         }
 
-        $data = $request->all(); //отримаємо масив даних, які надійшли з форми
+        $data = $request->all();
 
 
-        $result = $item->update($data); //оновлюємо дані об'єкта і зберігаємо в БД
+        $result = $item->update($data);
 
         if ($result) {
             return redirect()
@@ -129,7 +129,7 @@ class PostController extends BaseController
      */
     public function destroy(string $id)
     {
-        $result = BlogPost::destroy($id); //софт деліт, запис лишається
+        $result = BlogPost::destroy($id);
 
         //$result = BlogPost::find($id)->forceDelete(); //повне видалення з БД
 
